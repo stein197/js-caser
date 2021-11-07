@@ -1,0 +1,39 @@
+{
+  "name": "@stein197/caser",
+  "version": "1.0.0",
+  "description": "String case converter and parser",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "clean": "clean",
+    "precompile": "npm run clean",
+    "compile": "tsc",
+    "pretest": "npm run compile",
+    "test": "mocha test.js",
+    "prebuild": "npm i && npm run compile",
+    "build": "browserify --standalone caser index.js | terser --compress --mangle --output caser.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stein197/js-caser.git"
+  },
+  "keywords": [
+    "string",
+    "case",
+    "converter"
+  ],
+  "author": "Nail' Gafarov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stein197/js-caser/issues"
+  },
+  "homepage": "https://github.com/stein197/js-caser#readme",
+  "devDependencies": {
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.6",
+    "browserify": "^17.0.0",
+    "mocha": "^9.1.3",
+    "terser": "^5.9.0",
+    "typescript": "^4.4.4"
+  }
+}
