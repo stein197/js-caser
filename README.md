@@ -17,7 +17,7 @@ The package provides two functions and one enum:
 ```js
 // Use predefined case names
 caser.convert("camelCase", "pascal"); // "CamelCase"
-caser.convert("PascalCase", "kebab"); // "kebab-case"
+caser.convert("PascalCase", "kebab"); // "pascal-case"
 // Or use mask
 caser.convert("Some word", caser.Casing.Lowercase | case.Casing.FirstWordLetterUppercase, "/"); // "Some/word"
 
