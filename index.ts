@@ -1,66 +1,46 @@
 /**
- * Contains custom bit flags that is used by {@link convert} function to control the casing more precisely
+ * Default casing options.
  */
-export enum CasingOption {
-	/** Transforms all letters to lowercase */
-	Lowercase = 1 << 0,
-	/** Transforms all letters to uppercase */
-	Uppercase = 1 << 1,
-	/** Transforms the first letter of each word into lowercase */
-	FirstLetterLowercase = 1 << 2,
-	/** Transforms the first letter of each word into uppercase */
-	FirstLetterUppercase = 1 << 3,
-	/** Transforms the first letter of the first word into lowercase */
-	FirstWordLetterLowercase = 1 << 4,
-	/** Transforms the first letter of the first word into uppercase */
-	FirstWordLetterUppercase = 1 << 5,
+export enum Casing {
+	/** camelCase */
+	Camel,
+	/** Header-Case */
+	Header,
+	/** kebab-case */
+	Kebab,
+	/** PascalCase */
+	Pascal,
+	/** snake_case */
+	Snake,
+	/** UPPER_CASE */
+	Upper
 }
 
 /**
  * Converts a string to the given case.
- * @param string String to convert.
+ * @param data String to convert.
  * @param casing To which case convert the string.
- * @param delimiter Optional string that will separate each word.
+ * @param preserveAbbreviations Do not change case of abbreviations such as 'HTML', 'HTTP' and so on.
+ * @return String with converted case.
+ * @throws Error If the `casing` is unknown.
  */
-export function convert(string: string, casing: CasingOption, delimiter?: string): string;
-
-/**
- * Converts an array of strings to the given case.
- * @param array Array to convert.
- * @param casing To which case convert the array.
- * @param delimiter Optional string that will separate each word.
- */
-export function convert(array: string[], casing: CasingOption, delimiter?: string): string;
-
-/**
- * Converts a string to the given case.
- * @param string String to convert.
- * @param casing To which case convert the string.
- */
-export function convert(string: string, casing: Commons): string;
-
-/**
- * Converts an array of strings to the given case.
- * @param array Array to convert.
- * @param casing To which case convert the array.
- */
-export function convert(array: string[], casing: Commons): string;
-
-export function convert(data: string | string[], casing: CasingOption | Commons, delimiter: string = ""): string {
-	let words = (typeof data === "string" ? split(data) : data).map(word => word.toLowerCase());
-	if (typeof casing === "string") {
-		return commons[casing](words);
-	} else {
-		if (casing & CasingOption.Lowercase)
-			words = words.map(word => word.toLowerCase());
-		if (casing & CasingOption.Uppercase)
-			words = words.map(word => word.toUpperCase());
-		if (casing & (CasingOption.FirstLetterLowercase | CasingOption.FirstWordLetterLowercase))
-			words = words.map((w, wIdx) => wIdx && (casing & CasingOption.FirstWordLetterLowercase) ? w : setFirstLetterCase(w, false));
-		if (casing & (CasingOption.FirstLetterUppercase | CasingOption.FirstWordLetterUppercase))
-			words = words.map((w, wIdx) => wIdx && (casing & CasingOption.FirstWordLetterUppercase) ? w : setFirstLetterCase(w, false));
-		return words.join(delimiter);
+export function convert(data: string, casing: Casing, preserveAbbreviations: boolean = true): string {
+	const words = split(data).map(word => word.toUpperCase() === word && preserveAbbreviations ? word : word.toLowerCase());
+	switch (casing) {
+		case Casing.Camel:
+			return words.map((w, wIdx) => wIdx ? upperCaseFirstLetter(w) : w).join("");
+		case Casing.Header:
+			return words.map(w => upperCaseFirstLetter(w)).join("-");
+		case Casing.Kebab:
+			return words.join("-");
+		case Casing.Pascal:
+			return words.map(w => upperCaseFirstLetter(w)).join("");
+		case Casing.Snake:
+			return words.join("_");
+		case Casing.Upper:
+			return words.join("_").toUpperCase();
 	}
+	throw new Error(`Unknown casing ${casing}`);
 }
 
 /**
@@ -69,17 +49,10 @@ export function convert(data: string | string[], casing: CasingOption | Commons,
  * @param string String to split.
  * @returns Array of words.
  */
-export const split = (string: string) => string.split(/(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/).filter(s => !!s);
-
-const setFirstLetterCase = (string: string, upper: boolean) => string.split("").map((l, lIdx) => lIdx ? l : l[upper ? "toUpperCase" : "toLowerCase"]()).join("");
-
-const commons: {[K in Commons]: (data: string[]) => string} = {
-	camel: data => data.map((w, wIdx) => wIdx ? setFirstLetterCase(w, true) : w).join(""),
-	upper: data => data.join("_").toUpperCase(),
-	snake: data => data.join("_"),
-	kebab: data => data.join("-"),
-	pascal: data => data.map(w => setFirstLetterCase(w, true)).join(""),
-	header: data => data.map(w => setFirstLetterCase(w, true)).join("-")
+export function split(string: string): string[] {
+	return string.split(/(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/).filter(s => !!s);
 }
 
-type Commons = "camel" | "upper" | "snake" | "kebab" | "pascal" | "header";
+function upperCaseFirstLetter(string: string): string {
+	return string.split("").map((char, i) => i ? char : char.toUpperCase()).join("");
+}

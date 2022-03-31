@@ -25,7 +25,7 @@ const testCases: [data: string, parsed: string[], camel: string, upper: string, 
 
 const customCase = {
 	delimiter: "/",
-	mask: caser.CasingOption.Uppercase | caser.CasingOption.FirstWordLetterLowercase
+	mask: caser.Option.Uppercase | caser.Option.FirstWordLetterLowercase
 };
 
 

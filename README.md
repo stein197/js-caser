@@ -13,11 +13,13 @@ For browser:
 If you use embedded version for browser then the `caser` global variable will be defined.
 
 ## Usage:
-The package provides two functions and one enum:
+The package provides two functions and two enums:
 ```js
+import caser from "@stein197/caser";
+
 // Use predefined case names
-caser.convert("camelCase", "pascal"); // "CamelCase"
-caser.convert("PascalCase", "kebab"); // "pascal-case"
+caser.convert("camelCase", caser.Casing.Pascal); // "CamelCase"
+caser.convert("PascalCase", caser.Casing.Kebab); // "pascal-case"
 // Or use mask
 caser.convert("Some word", caser.CasingOption.Lowercase | case.CasingOption.FirstWordLetterUppercase, "/"); // "Some/word"
 
@@ -26,12 +28,12 @@ caser.split("backgroundColor"); // ["background", "Color"]
 ```
 The library automatically detects where it should split the string. If you prefer to use predefined case names instead of mask (which is less flexible) then the following names are available:
 
-- `camel`
-- `upper`
-- `snake`
-- `kebab`
-- `pascal`
-- `header`
+- `Casing.Camel`
+- `Casing.Header`
+- `Casing.Kebab`
+- `Casing.Pascal`
+- `Casing.Snake`
+- `Casing.Upper`
 
 ## NPM scripts
 - `clean` cleans working directory from compiled files
