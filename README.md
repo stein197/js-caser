@@ -19,7 +19,7 @@ The package provides two functions and one enum:
 caser.convert("camelCase", "pascal"); // "CamelCase"
 caser.convert("PascalCase", "kebab"); // "pascal-case"
 // Or use mask
-caser.convert("Some word", caser.Casing.Lowercase | case.Casing.FirstWordLetterUppercase, "/"); // "Some/word"
+caser.convert("Some word", caser.CasingOption.Lowercase | case.CasingOption.FirstWordLetterUppercase, "/"); // "Some/word"
 
 // You can split any string as well
 caser.split("backgroundColor"); // ["background", "Color"]

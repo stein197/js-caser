@@ -1,7 +1,7 @@
 /**
  * Contains custom bit flags that is used by {@link convert} function to control the casing more precisely
  */
-export enum Casing {
+export enum CasingOption {
 	/** Transforms all letters to lowercase */
 	Lowercase = 1 << 0,
 	/** Transforms all letters to uppercase */
@@ -22,7 +22,7 @@ export enum Casing {
  * @param casing To which case convert the string.
  * @param delimiter Optional string that will separate each word.
  */
-export function convert(string: string, casing: Casing, delimiter?: string): string;
+export function convert(string: string, casing: CasingOption, delimiter?: string): string;
 
 /**
  * Converts an array of strings to the given case.
@@ -30,7 +30,7 @@ export function convert(string: string, casing: Casing, delimiter?: string): str
  * @param casing To which case convert the array.
  * @param delimiter Optional string that will separate each word.
  */
-export function convert(array: string[], casing: Casing, delimiter?: string): string;
+export function convert(array: string[], casing: CasingOption, delimiter?: string): string;
 
 /**
  * Converts a string to the given case.
@@ -46,19 +46,19 @@ export function convert(string: string, casing: Commons): string;
  */
 export function convert(array: string[], casing: Commons): string;
 
-export function convert(data: string | string[], casing: Casing | Commons, delimiter: string = ""): string {
+export function convert(data: string | string[], casing: CasingOption | Commons, delimiter: string = ""): string {
 	let words = (typeof data === "string" ? split(data) : data).map(word => word.toLowerCase());
 	if (typeof casing === "string") {
 		return commons[casing](words);
 	} else {
-		if (casing & Casing.Lowercase)
+		if (casing & CasingOption.Lowercase)
 			words = words.map(word => word.toLowerCase());
-		if (casing & Casing.Uppercase)
+		if (casing & CasingOption.Uppercase)
 			words = words.map(word => word.toUpperCase());
-		if (casing & (Casing.FirstLetterLowercase | Casing.FirstWordLetterLowercase))
-			words = words.map((w, wIdx) => wIdx && (casing & Casing.FirstWordLetterLowercase) ? w : setFirstLetterCase(w, false));
-		if (casing & (Casing.FirstLetterUppercase | Casing.FirstWordLetterUppercase))
-			words = words.map((w, wIdx) => wIdx && (casing & Casing.FirstWordLetterUppercase) ? w : setFirstLetterCase(w, false));
+		if (casing & (CasingOption.FirstLetterLowercase | CasingOption.FirstWordLetterLowercase))
+			words = words.map((w, wIdx) => wIdx && (casing & CasingOption.FirstWordLetterLowercase) ? w : setFirstLetterCase(w, false));
+		if (casing & (CasingOption.FirstLetterUppercase | CasingOption.FirstWordLetterUppercase))
+			words = words.map((w, wIdx) => wIdx && (casing & CasingOption.FirstWordLetterUppercase) ? w : setFirstLetterCase(w, false));
 		return words.join(delimiter);
 	}
 }

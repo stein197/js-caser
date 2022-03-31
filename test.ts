@@ -25,16 +25,16 @@ const testCases: [data: string, parsed: string[], camel: string, upper: string, 
 
 const customCase = {
 	delimiter: "/",
-	mask: caser.Casing.Uppercase | caser.Casing.FirstWordLetterLowercase
+	mask: caser.CasingOption.Uppercase | caser.CasingOption.FirstWordLetterLowercase
 };
 
 
 mocha.describe("convert()", () => {
-	mocha.describe("convert(string, Casing, ?string)", () => {
+	mocha.describe("convert(string, CasingOption, ?string)", () => {
 		for (const [data, , , , , , , , custom] of testCases)
 			mocha.it(`convert("${data}", <mask>, "${customCase.delimiter}") == "${custom}"`, () => assert.equal(caser.convert(data, customCase.mask, customCase.delimiter), custom));
 	});
-	mocha.describe("convert(string[], Casing, ?string)", () => {
+	mocha.describe("convert(string[], CasingOption, ?string)", () => {
 		for (const [, parsed, , , , , , , custom] of testCases)
 			mocha.it(`convert([${parsed.map(s => `"${s}"`).join(", ")}], <mask>, "${customCase.delimiter}") == "${custom}"`, () => assert.equal(caser.convert(parsed, customCase.mask, customCase.delimiter), custom));
 	});
