@@ -1,7 +1,7 @@
 # CHANGELOG
 ## [Unreleased]
 
-## [2.0.0](../../compare/1.0.0..2.0.0) - XXXX-XX-XX
+## [2.0.0](../../compare/1.0.0..2.0.0) - 2022-04-01
 ### Added
 - `preserveAbbreviations` flag for `convert()` function
 
