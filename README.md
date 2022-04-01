@@ -1,5 +1,8 @@
 # String case converter and parser
-This tiny package provides means for converting strings between different cases - such as converting `camelCase` to `snake_case` and so on. Amount of different cases isn't strictly defined - you can convert to your own case if you wish.
+[![](https://img.shields.io/github/license/stein197/js-caser)](LICENSE)
+![](https://img.shields.io/npm/v/@stein197/caser)
+
+This tiny package provides means for converting strings between different cases - such as converting `camelCase` to `snake_case` and so on.
 
 ## Installation
 For Node.js:
@@ -13,27 +16,22 @@ For browser:
 If you use embedded version for browser then the `caser` global variable will be defined.
 
 ## Usage:
-The package provides two functions and two enums:
+The package provides two functions and one enum:
 ```js
-import caser from "@stein197/caser";
-
-// Use predefined case names
 caser.convert("camelCase", caser.Casing.Pascal); // "CamelCase"
 caser.convert("PascalCase", caser.Casing.Kebab); // "pascal-case"
-// Or use mask
-caser.convert("Some word", caser.CasingOption.Lowercase | case.CasingOption.FirstWordLetterUppercase, "/"); // "Some/word"
-
-// You can split any string as well
-caser.split("backgroundColor"); // ["background", "Color"]
+caser.split("backgroundColor");                  // ["background", "Color"]
 ```
-The library automatically detects where it should split the string. If you prefer to use predefined case names instead of mask (which is less flexible) then the following names are available:
+The library automatically detects where it should split the string. There are 6 casing options available:
 
-- `Casing.Camel`
-- `Casing.Header`
-- `Casing.Kebab`
-- `Casing.Pascal`
-- `Casing.Snake`
-- `Casing.Upper`
+```ts
+caser.Casing.Camel;  // camelCase
+caser.Casing.Header; // Header-Case
+caser.Casing.Kebab;  // kebab-case
+caser.Casing.Pascal; // PascalCase
+caser.Casing.Snake;  // snake_case
+caser.Casing.Upper;  // UPPER_CASE
+```
 
 ## NPM scripts
 - `clean` cleans working directory from compiled files
