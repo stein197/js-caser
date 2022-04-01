@@ -1,11 +1,9 @@
 # CHANGELOG
 ## [Unreleased]
-- `detect()` function which returns detected casing
 
 ## [2.0.0](../../compare/1.0.0..2.0.0) - XXXX-XX-XX
 ### Added
-- `preserverAbbreviations` flag for `convert()` function
-- `detect(string)` function
+- `preserveAbbreviations` flag for `convert()` function
 
 ### Changed
 - `Casing` now contains entries like `Camel`, `Snake` and so
