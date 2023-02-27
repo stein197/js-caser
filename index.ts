@@ -1,3 +1,5 @@
+const REGEX_SPLIT = /(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/;
+
 /**
  * Default casing options.
  */
@@ -50,7 +52,7 @@ export function convert(data: string, casing: Casing, preserveAbbreviations: boo
  * @returns Array of words.
  */
 export function split(string: string): string[] {
-	return string.split(/(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/).filter(s => !!s);
+	return string.split(REGEX_SPLIT).filter(s => !!s);
 }
 
 function upperCaseFirstLetter(string: string): string {
