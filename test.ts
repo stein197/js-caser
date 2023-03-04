@@ -1,4 +1,4 @@
-import * as mocha from "mocha";
+import "mocha";
 import * as assert from "assert";
 import * as caser from ".";
 
@@ -24,17 +24,17 @@ const testCases: [data: string, parsed: string[], camel: string, upper: string, 
 ];
 
 
-mocha.describe("convert()", () => {
-	mocha.describe("convert(string, Casing)", () => {
+describe("convert()", () => {
+	describe("convert(string, Casing)", () => {
 		for (const [data, , camel, upper, snake, kebab, pascal, header] of testCases) {
-			mocha.it(`convert("${data}", caser.Casing.Camel) == "${camel}"`, () => assert.equal(caser.convert(data, caser.Casing.Camel, false), camel));
-			mocha.it(`convert("${data}", caser.Casing.Header) == "${header}"`, () => assert.equal(caser.convert(data, caser.Casing.Header, false), header));
-			mocha.it(`convert("${data}", caser.Casing.Kebab) == "${kebab}"`, () => assert.equal(caser.convert(data, caser.Casing.Kebab, false), kebab));
-			mocha.it(`convert("${data}", caser.Casing.Pascal) == "${pascal}"`, () => assert.equal(caser.convert(data, caser.Casing.Pascal, false), pascal));
-			mocha.it(`convert("${data}", caser.Casing.Snake) == "${snake}"`, () => assert.equal(caser.convert(data, caser.Casing.Snake, false), snake));
-			mocha.it(`convert("${data}", caser.Casing.Upper) == "${upper}"`, () => assert.equal(caser.convert(data, caser.Casing.Upper, false), upper));
+			it(`convert("${data}", "camel") == "${camel}"`, () => assert.equal(caser.convert(data, "camel", false), camel));
+			it(`convert("${data}", "header") == "${header}"`, () => assert.equal(caser.convert(data, "header", false), header));
+			it(`convert("${data}", "kebab") == "${kebab}"`, () => assert.equal(caser.convert(data, "kebab", false), kebab));
+			it(`convert("${data}", "pascal") == "${pascal}"`, () => assert.equal(caser.convert(data, "pascal", false), pascal));
+			it(`convert("${data}", "snake") == "${snake}"`, () => assert.equal(caser.convert(data, "snake", false), snake));
+			it(`convert("${data}", "upper") == "${upper}"`, () => assert.equal(caser.convert(data, "upper", false), upper));
 		}
 	});
 });
 
-mocha.describe("split(string)", () => testCases.forEach(v => mocha.it(`split("${v[0]}") == [${v[1].map(s => `"${s}"`).join(", ")}]`, () => assert.deepStrictEqual(caser.split(v[0]), v[1]))));
+describe("split(string)", () => testCases.forEach(v => it(`split("${v[0]}") == [${v[1].map(s => `"${s}"`).join(", ")}]`, () => assert.deepStrictEqual(caser.split(v[0]), v[1]))));
