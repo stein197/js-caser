@@ -66,23 +66,7 @@ const DEFAULT_CASING_ARRAY: {[K in "flat" | "camel" | "header" | "kebab" | "pasc
  */
 export function convert(data: string, casing: Partial<Options> | keyof typeof DEFAULT_CASING_ARRAY, abbr: boolean = true): string {
 	const config = typeof casing === "string" ? DEFAULT_CASING_ARRAY[casing] : {...DEFAULT_CASING_ARRAY.flat, ...casing};
-	if (!config)
-		return data;
-	const wordArray = split(data);
-	for (let i = 0, w = wordArray[i]; i < wordArray.length; i++, w = wordArray[i]) {
-		if (abbr && w.toUpperCase() === w)
-			continue;
-		const isFirstWord = !i;
-		w = config.case === "lower" ? w.toLowerCase() : w.toUpperCase();
-		if (isFirstWord) {
-			w = (config.firstCharCase === "lower" ? w[0].toLowerCase() : w[0].toUpperCase()) + w.substring(1);
-		} else {
-			w = (config.leadCharCase === "lower" ? w[0].toLowerCase() : w[0].toUpperCase()) + w.substring(1);
-		}
-		wordArray[i] = w;
-	}
-	return wordArray.join(config.separator);
-	// return config ? split(data).map((w, i) => !config.abbr || w.toUpperCase() !== w ? w : w[0][!i && config.firstCharCase === "lower" || i && config.leadCharCase === "lower" ? "toLowerCase" : "toUpperCase"]() + w.substring(1)[config.case === "lower" ? "toLowerCase" : "toUpperCase"]()).join(config.separator) : data;
+	return config ? split(data).map((w, i) => abbr && w.toUpperCase() === w ? w : w[0][!i && config.firstCharCase === "lower" || i && config.leadCharCase === "lower" ? "toLowerCase" : "toUpperCase"]() + w.substring(1)[config.case === "lower" ? "toLowerCase" : "toUpperCase"]()).join(config.separator) : data;
 }
 
 /**
