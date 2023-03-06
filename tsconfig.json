@@ -10,10 +10,11 @@
 		"noUnusedParameters": true,
 		"allowUnusedLabels": false,
 		"moduleResolution": "node",
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"inlineSources": true
 	},
-	"include": [
-		"*.ts"
-	],
-	"exclude": []
+	"files": [
+		"index.ts"
+	]
 }
