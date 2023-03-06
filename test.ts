@@ -23,9 +23,12 @@ const testCases: [data: string, parsed: string[], camel: string, upper: string, 
 	["MOSTComplexExample-Of_THIS--test___CasesMAP", ["MOST", "Complex", "Example", "Of", "THIS", "test", "Cases", "MAP"], "mostComplexExampleOfThisTestCasesMap", "MOST_COMPLEX_EXAMPLE_OF_THIS_TEST_CASES_MAP", "most_complex_example_of_this_test_cases_map", "most-complex-example-of-this-test-cases-map", "MostComplexExampleOfThisTestCasesMap", "Most-Complex-Example-Of-This-Test-Cases-Map", "mostcomplexexampleofthistestcasesmap", "MOST-COMPLEX-EXAMPLE-OF-THIS-TEST-CASES-MAP"],
 ];
 
-
 describe("convert()", () => {
-	describe("convert(string, Casing)", () => {
+	it("convert(\"...\", {...})", () => {
+		assert.equal(caser.convert("HTMLElement", {separator: ":"}, false), "html:element");
+		assert.equal(caser.convert("HTMLElement", {separator: ":"}, true), "HTML:element");
+	});
+	describe("convert(\"...\", \"...\")", () => {
 		for (const [data, , camel, upper, snake, kebab, pascal, header, flat, train] of testCases) {
 			it(`convert("${data}", "camel") == "${camel}"`, () => assert.equal(caser.convert(data, "camel", false), camel));
 			it(`convert("${data}", "header") == "${header}"`, () => assert.equal(caser.convert(data, "header", false), header));
@@ -40,3 +43,5 @@ describe("convert()", () => {
 });
 
 describe("split(string)", () => testCases.forEach(v => it(`split("${v[0]}") == [${v[1].map(s => `"${s}"`).join(", ")}]`, () => assert.deepStrictEqual(caser.split(v[0]), v[1]))));
+
+

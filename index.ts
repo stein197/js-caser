@@ -1,5 +1,5 @@
 const REGEX_SPLIT = /(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/;
-const DEFAULT_CASINGS: {[K in "flat" | "camel" | "header" | "kebab" | "pascal" | "snake" | "upper" | "train"]: Options} = {
+const DEFAULT_CASING_ARRAY: {[K in "flat" | "camel" | "header" | "kebab" | "pascal" | "snake" | "upper" | "train"]: Options} = {
 	flat: {
 		separator: "",
 		leadCharCase: "lower",
@@ -64,8 +64,8 @@ const DEFAULT_CASINGS: {[K in "flat" | "camel" | "header" | "kebab" | "pascal" |
  * convert("camelCase", {separator: "-", leadCharCase: "lower", firstCharCase: "upper", case: "lower"}); // "Camel-case"
  * ```
  */
-export function convert(data: string, casing: Options | keyof typeof DEFAULT_CASINGS, abbr: boolean = true): string {
-	const config = typeof casing === "string" ? DEFAULT_CASINGS[casing] : casing;
+export function convert(data: string, casing: Partial<Options> | keyof typeof DEFAULT_CASING_ARRAY, abbr: boolean = true): string {
+	const config = typeof casing === "string" ? DEFAULT_CASING_ARRAY[casing] : {...DEFAULT_CASING_ARRAY.flat, ...casing};
 	if (!config)
 		return data;
 	const wordArray = split(data);
