@@ -1,7 +1,9 @@
 # CHANGELOG
 ## [Unreleased]
 
-## [3.0.0](../../compare/2.0.0..3.0.0) - XXXX-XX-XX
+## [3.0.0](../../compare/2.0.0..3.0.0) - 2023-03-06
+### Changed
+- API
 
 ## [2.0.0](../../compare/1.0.0..2.0.0) - 2022-04-01
 ### Added
