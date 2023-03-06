@@ -44,4 +44,5 @@ describe("convert()", () => {
 
 describe("split(string)", () => testCases.forEach(v => it(`split("${v[0]}") == [${v[1].map(s => `"${s}"`).join(", ")}]`, () => assert.deepStrictEqual(caser.split(v[0]), v[1]))));
 
-
+// TODO
+describe("detect()", () => {});

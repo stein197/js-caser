@@ -1,5 +1,10 @@
 const REGEX_SPLIT = /(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/;
-const DEFAULT_CASING_ARRAY: {[K in "flat" | "camel" | "header" | "kebab" | "pascal" | "snake" | "upper" | "train"]: Options} = {
+const REGEX_CASE_FLAT = /^[a-z0-9]+$/;
+const REGEX_CASE_KEBAB = /^[a-z0-9\-]+$/;
+const REGEX_CASE_SNAKE = /^[a-z0-9_]+$/;
+const REGEX_CASE_UPPER = /^[A-Z0-9_]+$/;
+const REGEX_CASE_TRAIN = /^[A-Z0-9\-]+$/;
+const DEFAULT_CASING_ARRAY: {[K in Casing]: Options} = {
 	flat: {
 		separator: "",
 		leadCharCase: "lower",
@@ -69,6 +74,31 @@ export function convert(data: string, casing: Partial<Options> | keyof typeof DE
 	return config ? split(data).map((w, i) => abbr && w.toUpperCase() === w ? w : w[0][!i && config.firstCharCase === "lower" || i && config.leadCharCase === "lower" ? "toLowerCase" : "toUpperCase"]() + w.substring(1)[config.case === "lower" ? "toLowerCase" : "toUpperCase"]()).join(config.separator) : data;
 }
 
+// TODO
+export function detect(data: string): Casing | null {
+	if (data.toLowerCase() === data) {
+		if (data.search(REGEX_CASE_SNAKE) === 0)
+			return "snake";
+		if (data.search(REGEX_CASE_KEBAB) === 0)
+			return "kebab";
+		if (data.search(REGEX_CASE_FLAT) === 0)
+			return "flat";
+	} else if (data.toUpperCase() === data) {
+		if (data.search(REGEX_CASE_UPPER) === 0)
+			return "upper";
+		if (data.search(REGEX_CASE_TRAIN) === 0)
+			return "train";
+	} else {
+		if (convert(data, "camel") === data)
+			return "camel";
+		if (convert(data, "pascal") === data)
+			return "pascal";
+		if (convert(data, "header") === data)
+			return "header";
+	}
+	return null;
+}
+
 /**
  * Splits the string into array of words that this string consists of, preserving the case.
  * @param string String to split.
@@ -84,6 +114,8 @@ export function convert(data: string, casing: Partial<Options> | keyof typeof DE
 export function split(string: string): string[] {
 	return string.split(REGEX_SPLIT).filter(s => !!s);
 }
+
+type Casing = "flat" | "camel" | "header" | "kebab" | "pascal" | "snake" | "upper" | "train";
 
 type Options = {
 
