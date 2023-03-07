@@ -1,6 +1,10 @@
 # CHANGELOG
 ## [Unreleased]
 
+## [3.1.0](../../compare/3.0.0..3.1.0) - 2023-03-07
+### Added
+- `detect()` function
+
 ## [3.0.0](../../compare/2.0.0..3.0.0) - 2023-03-06
 ### Changed
 - API
