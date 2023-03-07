@@ -45,4 +45,38 @@ describe("convert()", () => {
 describe("split(string)", () => testCases.forEach(v => it(`split("${v[0]}") == [${v[1].map(s => `"${s}"`).join(", ")}]`, () => assert.deepStrictEqual(caser.split(v[0]), v[1]))));
 
 // TODO
-describe("detect()", () => {});
+describe("detect()", () => {
+	it("Should return \"flat\" when the string is written in flat case", () => {
+		assert.equal(caser.detect("flatcase"), "flat");
+	});
+	it("Should return \"camel\" when the string is written in camel case", () => {
+		assert.equal(caser.detect("camelCase"), "camel");
+	});
+	it("Should return \"header\" when the string is written in header case", () => {
+		assert.equal(caser.detect("Header-Case"), "header");
+	});
+	it("Should return \"kebab\" when the string is written in kebab case", () => {
+		assert.equal(caser.detect("kebab-case"), "kebab");
+	});
+	it("Should return \"pascal\" when the string is written in pascal case", () => {
+		assert.equal(caser.detect("PascalCase"), "pascal");
+	});
+	it("Should return \"snake\" when the string is written in snake case", () => {
+		assert.equal(caser.detect("snake_case"), "snake");
+	});
+	it("Should return \"upper\" when the string is written in upper case", () => {
+		assert.equal(caser.detect("UPPER_CASE"), "upper");
+	});
+	it("Should return \"train\" when the string is written in train case", () => {
+		assert.equal(caser.detect("TRAIN-CASE"), "train");
+	});
+	it("Should return null when there are multiple different separators", () => {
+		assert.equal(caser.detect("Un_KnownCase"), null);
+	});
+	it("Should return null for an arbitrary string", () => {
+		assert.equal(caser.detect("This is a string"), null);
+	});
+	it("Should return null for an empty string", () => {
+		assert.equal(caser.detect(""), null);
+	});
+});

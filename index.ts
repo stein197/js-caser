@@ -1,9 +1,4 @@
 const REGEX_SPLIT = /(?<=[a-z0-9])(?=[A-Z0-9])|(?<=[A-Z0-9])(?=[A-Z0-9][a-z0-9])|[^\w]+|_/;
-const REGEX_CASE_FLAT = /^[a-z0-9]+$/;
-const REGEX_CASE_KEBAB = /^[a-z0-9\-]+$/;
-const REGEX_CASE_SNAKE = /^[a-z0-9_]+$/;
-const REGEX_CASE_UPPER = /^[A-Z0-9_]+$/;
-const REGEX_CASE_TRAIN = /^[A-Z0-9\-]+$/;
 const DEFAULT_CASING_ARRAY: {[K in Casing]: Options} = {
 	flat: {
 		separator: "",
@@ -74,19 +69,34 @@ export function convert(data: string, casing: Partial<Options> | keyof typeof DE
 	return config ? split(data).map((w, i) => abbr && w.toUpperCase() === w ? w : w[0][!i && config.firstCharCase === "lower" || i && config.leadCharCase === "lower" ? "toLowerCase" : "toUpperCase"]() + w.substring(1)[config.case === "lower" ? "toLowerCase" : "toUpperCase"]()).join(config.separator) : data;
 }
 
-// TODO
+/**
+ * Detects in which case the string is written.
+ * @param data The string which case to detect.
+ * @returns Detected case or null if the case cannot be detected.
+ * @example
+ * ```ts
+ * detect("camelCase"); // "camel"
+ * detect("This is a string"); // null
+ * ```
+ */
 export function detect(data: string): Casing | null {
+	if (!data)
+		return null;
+	const chars = data.replace(/[\p{L}\p{N}]+/gui, "").split("");
+	// @ts-ignore
+	const separator = chars.length ? chars.reduce((prev, current) => prev === current ? prev : null) : "";
+	if (separator == null)
+		return null;
 	if (data.toLowerCase() === data) {
-		if (data.search(REGEX_CASE_SNAKE) === 0)
+		if (separator === "_")
 			return "snake";
-		if (data.search(REGEX_CASE_KEBAB) === 0)
+		if (separator === "-")
 			return "kebab";
-		if (data.search(REGEX_CASE_FLAT) === 0)
-			return "flat";
+		return "flat";
 	} else if (data.toUpperCase() === data) {
-		if (data.search(REGEX_CASE_UPPER) === 0)
+		if (separator === "_")
 			return "upper";
-		if (data.search(REGEX_CASE_TRAIN) === 0)
+		if (separator === "-")
 			return "train";
 	} else {
 		if (convert(data, "camel") === data)
